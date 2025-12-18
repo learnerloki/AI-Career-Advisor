@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Career Advisor — Showcase</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.15);
+      --gradient: radial-gradient(1200px 600px at 10% 10%, rgba(99,102,241,.25), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(56,189,248,.25), transparent 60%),
+                  radial-gradient(900px 500px at 50% 100%, rgba(16,185,129,.2), transparent 60%);
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+      background: var(--bg);
+      color: #e5e7eb;
+      background-image: var(--gradient);
+      background-attachment: fixed;
+    }
+    .glass {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 9999px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Shell -->
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="hidden lg:flex w-72 flex-col gap-4 p-6 glass">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-sky-400 grid place-items-center">
+          <i class="fa-solid fa-robot text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-extrabold tracking-tight">AI Career Advisor</h1>
+          <p class="text-xs text-slate-300/70">Showcase Dashboard</p>
+        </div>
+      </div>
+
+      <nav class="mt-4 space-y-1">
+        <button data-view="dashboard" class="nav-btn w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 transition active glass">🏠 Dashboard</button>
+        <button data-view="profile"   class="nav-btn w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 transition">👤 My Profile</button>
+        <button data-view="skills"    class="nav-btn w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 transition">📈 Skills Tracker</button>
+        <button data-view="roadmap"   class="nav-btn w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 transition">🗺️ Career Roadmap</button>
+        <button data-view="advisor"   class="nav-btn w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 transition">💬 Talk to Advisor</button>
+      </nav>
+
+      <div class="mt-auto p-4 rounded-xl card">
+        <p class="text-sm text-slate-300/80">Tip: Log progress to unlock <span class="font-semibold text-white">Internships, Hackathons, Jobs</span> tailored to your path.</p>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-4 md:p-6 lg:p-10 space-y-6 w-full">
+      <!-- Mobile Header -->
+      <div class="lg:hidden sticky top-0 z-30 glass rounded-2xl p-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-sky-400 grid place-items-center">
+            <i class="fa-solid fa-robot text-white"></i>
+          </div>
+          <h1 class="text-lg font-extrabold">AI Career Advisor</h1>
+        </div>
+        <div class="relative">
+          <button id="mobileMenuBtn" class="px-3 py-2 rounded-xl bg-white/10">Menu</button>
+          <div id="mobileMenu" class="hidden absolute right-0 mt-2 w-52 card rounded-xl overflow-hidden">
+            <button data-view="dashboard" class="nav-btn block w-full text-left px-4 py-2 hover:bg-white/10 active">Dashboard</button>
+            <button data-view="profile" class="nav-btn block w-full text-left px-4 py-2 hover:bg-white/10">My Profile</button>
+            <button data-view="skills" class="nav-btn block w-full text-left px-4 py-2 hover:bg-white/10">Skills Tracker</button>
+            <button data-view="roadmap" class="nav-btn block w-full text-left px-4 py-2 hover:bg-white/10">Career Roadmap</button>
+            <button data-view="advisor" class="nav-btn block w-full text-left px-4 py-2 hover:bg-white/10">Talk to Advisor</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <header class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight">Welcome back, <span id="user-name" class="bg-gradient-to-r from-indigo-300 to-sky-300 bg-clip-text text-transparent">Student</span> 👋</h2>
+          <p class="text-slate-300/80 mt-1">Let’s build your path to a job you love.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div id="user-initials" class="h-12 w-12 rounded-2xl grid place-items-center text-lg font-bold text-white bg-gradient-to-tr from-indigo-500 to-sky-400">S</div>
+        </div>
+      </header>
+
+      <!-- Views -->
+      <section id="dashboard-view" class="space-y-6">
+        <!-- KPI Cards -->
+        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div class="p-5 rounded-2xl card hover:shadow-2xl hover:shadow-indigo-500/10 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-300/80">Profile Completion</span>
+              <i class="fa-solid fa-user-check text-indigo-300"></i>
+            </div>
+            <div class="mt-4">
+              <div class="h-3 rounded-full bg-white/10 overflow-hidden">
+                <div id="profile-progress-bar" class="h-3 rounded-full bg-gradient-to-r from-indigo-500 to-sky-400" style="width:0%"></div>
+              </div>
+              <p class="mt-2 text-sm"><span id="profile-progress-percent">0%</span></p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl card hover:shadow-2xl hover:shadow-indigo-500/10 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-300/80">Average Skill Mastery</span>
+              <i class="fa-solid fa-chart-line text-emerald-300"></i>
+            </div>
+            <div class="mt-4">
+              <div class="h-3 rounded-full bg-white/10 overflow-hidden">
+                <div id="skills-progress-bar" class="h-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" style="width:0%"></div>
+              </div>
+              <p class="mt-2 text-sm"><span id="skills-progress-percent">0%</span></p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl card hover:shadow-2xl hover:shadow-indigo-500/10 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-300/80">Career Goals</span>
+              <i class="fa-solid fa-bullseye text-amber-300"></i>
+            </div>
+            <div id="career-goals-summary" class="mt-3 text-sm text-slate-200/90">
+              Set your career goals to see recommendations
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl card hover:shadow-2xl hover:shadow-indigo-500/10 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-slate-300/80">Next Steps</span>
+              <i class="fa-solid fa-list-check text-rose-300"></i>
+            </div>
+            <div id="next-steps-summary" class="mt-3 text-sm text-slate-200/90">
+              Complete your profile to get personalized recommendations
+            </div>
+          </div>
+        </div>
+
+        <!-- Opportunities -->
+        <div class="p-6 rounded-2xl card">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <h3 class="text-xl font-bold">Opportunities for You</h3>
+              <p id="opportunities-sub" class="text-sm text-slate-300/80">Unlock internships, hackathons, and jobs by progressing your skills.</p>
+            </div>
+            <span id="unlock-badge" class="hidden px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-200 border border-emerald-500/40">Unlocked</span>
+          </div>
+          <div id="opportunities-list" class="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="p-6 rounded-2xl card flex items-center justify-between">
+            <div>
+              <h4 class="font-semibold">Update Profile</h4>
+              <p class="text-sm text-slate-300/80">Add your details to personalize everything.</p>
+            </div>
+            <button id="update-profile-btn" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition">Edit</button>
+          </div>
+          <div class="p-6 rounded-2xl card flex items-center justify-between">
+            <div>
+              <h4 class="font-semibold">Log Progress</h4>
+              <p class="text-sm text-slate-300/80">Track learning and projects.</p>
+            </div>
+            <button id="log-progress-btn" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition">Log</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile -->
+      <section id="profile-view" class="hidden space-y-6">
+        <div class="p-6 rounded-2xl card">
+          <h3 class="text-xl font-bold">Personal Information</h3>
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="text-sm text-slate-300/80">Full Name</label>
+              <input id="full-name" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter your full name"/>
+            </div>
+            <div>
+              <label class="text-sm text-slate-300/80">Age</label>
+              <input id="age" type="number" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter your age"/>
+            </div>
+            <div>
+              <label class="text-sm text-slate-300/80">Education Level</label>
+              <select id="education" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="">Select</option>
+                <option value="high-school">High School</option>
+                <option value="associate">Associate Degree</option>
+                <option value="bachelor">Bachelor's Degree</option>
+                <option value="master">Master's Degree</option>
+                <option value="phd">PhD</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-sm text-slate-300/80">Career Timeline</label>
+              <select id="timeline" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="">Select</option>
+                <option value="6-months">6 months</option>
+                <option value="1-year">1 year</option>
+                <option value="2-years">2 years</option>
+                <option value="3-years">3+ years</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl card">
+          <h3 class="text-xl font-bold">Skills & Interests</h3>
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="text-sm text-slate-300/80">Current Skills (comma separated)</label>
+              <input id="current-skills" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g., HTML, CSS, JavaScript, Python"/>
+            </div>
+            <div>
+              <label class="text-sm text-slate-300/80">Career Interests</label>
+              <input id="career-interests" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g., Web Development, Data Science, AI/ML"/>
+            </div>
+          </div>
+          <button id="save-profile-btn" class="mt-4 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 transition font-semibold">Save Profile</button>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section id="skills-view" class="hidden space-y-6">
+        <div class="p-6 rounded-2xl card">
+          <h3 class="text-xl font-bold">Your Skills</h3>
+          <div id="skills-list" class="mt-4 text-sm text-slate-200/90">No skills tracked yet. Complete your profile to see skills.</div>
+        </div>
+
+        <div class="p-6 rounded-2xl card">
+          <h3 class="text-xl font-bold">Log New Progress</h3>
+          <div class="mt-4 grid gap-4 md:grid-cols-3">
+            <div>
+              <label class="text-sm text-slate-300/80">Skill</label>
+              <select id="skill-progress" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="">Select a skill</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-sm text-slate-300/80">Progress (%)</label>
+              <input id="progress-amount" type="number" min="0" max="100" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="0-100"/>
+            </div>
+            <div>
+              <label class="text-sm text-slate-300/80">Notes</label>
+              <input id="progress-note" class="mt-1 w-full px-4 py-2 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="What did you learn?"/>
+            </div>
+          </div>
+          <button id="log-skill-progress-btn" class="mt-4 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 transition font-semibold">Log Progress</button>
+        </div>
+      </section>
+
+      <!-- Roadmap -->
+      <section id="roadmap-view" class="hidden space-y-6">
+        <div class="p-6 rounded-2xl card">
+          <h3 class="text-xl font-bold">Personalized Career Path</h3>
+          <div id="career-roadmap" class="mt-4 text-sm">Complete your profile to get a personalized career roadmap.</div>
+        </div>
+      </section>
+
+      <!-- Advisor Chat -->
+      <section id="advisor-view" class="hidden space-y-6">
+        <div class="p-6 rounded-2xl card">
+          <h3 class="text-xl font-bold">Talk to Your AI Career Advisor</h3>
+          <div id="chat-messages" class="mt-4 h-80 overflow-y-auto rounded-xl p-4 bg-white/5 border border-white/10">
+            <div class="mb-3 p-3 rounded-xl bg-white/5 border border-white/10">
+              <strong>AI:</strong>
+              <p>Hello! I'm your personalized career advisor. Tell me about your goals, skills, or ask for career advice.</p>
+            </div>
+          </div>
+          <div class="mt-3 flex gap-2">
+            <input id="chat-input" class="flex-1 px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ask me anything about your career..."/>
+            <button id="send-chat-btn" class="px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 transition"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // ------- State -------
+    let userProfile = {
+      name: "",
+      age: "",
+      education: "",
+      timeline: "",
+      skills: [],
+      interests: [],
+      skillProgress: {},
+      profileCompletion: 0
+    };
+
+    const careerRoadmaps = {
+      "web-development": [
+        { phase: "Foundation", duration: "2-3 months", steps: ["HTML/CSS Basics", "JavaScript Fundamentals", "Responsive Design"] },
+        { phase: "Intermediate", duration: "3-4 months", steps: ["React", "Node.js Basics", "SQL/NoSQL"] },
+        { phase: "Advanced", duration: "2-3 months", steps: ["Full Stack Projects", "Deployment", "Performance"] },
+        { phase: "Job Prep", duration: "1-2 months", steps: ["Portfolio", "DSA + Interviews", "Applications"] }
+      ],
+      "data-science": [
+        { phase: "Foundation", duration: "3-4 months", steps: ["Python", "Stats & Probability", "Pandas"] },
+        { phase: "Intermediate", duration: "4-5 months", steps: ["ML Algorithms", "Visualization", "SQL"] },
+        { phase: "Advanced", duration: "3-4 months", steps: ["Deep Learning", "MLOps Basics", "Model Deployment"] },
+        { phase: "Job Prep", duration: "1-2 months", steps: ["Kaggle", "Case Studies", "Interviews"] }
+      ],
+      "ai-ml": [
+        { phase: "Foundation", duration: "3-4 months", steps: ["Math for ML", "Python", "Statistics"] },
+        { phase: "Intermediate", duration: "4-6 months", steps: ["ML", "Neural Networks", "TensorFlow/PyTorch"] },
+        { phase: "Advanced", duration: "4-5 months", steps: ["NLP/CV", "Optimization", "Fine-tuning"] },
+        { phase: "Job Prep", duration: "2 months", steps: ["Research Projects", "Paper Impl.", "Interviews"] }
+      ]
+    };
+
+    const MOCK_OPPORTUNITIES = {
+      "web-development": {
+        internships: [
+          { title: "Frontend Developer Intern", org: "Zoho", link: "https://www.linkedin.com/jobs" },
+          { title: "Web Dev Intern", org: "Freshworks", link: "https://www.linkedin.com/jobs" }
+        ],
+        hackathons: [
+          { title: "Devpost Web Hack", org: "Devpost", link: "https://devpost.com/hackathons" },
+          { title: "HackerEarth UI Challenge", org: "HackerEarth", link: "https://www.hackerearth.com/challenges/" }
+        ],
+        jobs: [
+          { title: "Junior Frontend Engineer", org: "Razorpay", link: "https://www.linkedin.com/jobs" }
+        ]
+      },
+      "data-science": {
+        internships: [
+          { title: "Data Science Intern", org: "TCS", link: "https://www.linkedin.com/jobs" },
+          { title: "Analytics Intern", org: "Mu Sigma", link: "https://www.linkedin.com/jobs" }
+        ],
+        hackathons: [
+          { title: "Kaggle Getting Started", org: "Kaggle", link: "https://www.kaggle.com/competitions" },
+          { title: "Analytics Vidhya Hack", org: "AV", link: "https://datahack.analyticsvidhya.com/contest/all/" }
+        ],
+        jobs: [
+          { title: "Junior Data Analyst", org: "Swiggy", link: "https://www.linkedin.com/jobs" }
+        ]
+      },
+      "ai-ml": {
+        internships: [
+          { title: "AI/ML Intern", org: "NVIDIA", link: "https://www.linkedin.com/jobs" },
+          { title: "Research Intern - NLP", org: "Microsoft", link: "https://www.linkedin.com/jobs" }
+        ],
+        hackathons: [
+          { title: "Z by HP ML Hack", org: "Devpost", link: "https://devpost.com/hackathons" },
+          { title: "HackerEarth ML Challenge", org: "HackerEarth", link: "https://www.hackerearth.com/challenges/" }
+        ],
+        jobs: [
+          { title: "Associate ML Engineer", org: "Freshworks", link: "https://www.linkedin.com/jobs" }
+        ]
+      }
+    };
+
+    // ------- Init -------
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active','glass'));
+          btn.classList.add('active','glass');
+          showView(btn.dataset.view);
+          document.getElementById('mobileMenu')?.classList.add('hidden');
+        });
+      });
+
+      document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.toggle('hidden');
+      });
+
+      // Buttons
+      document.getElementById('update-profile-btn').addEventListener('click', () => showView('profile'));
+      document.getElementById('log-progress-btn').addEventListener('click', () => showView('skills'));
+      document.getElementById('save-profile-btn').addEventListener('click', saveProfile);
+      document.getElementById('log-skill-progress-btn').addEventListener('click', logSkillProgress);
+      document.getElementById('send-chat-btn').addEventListener('click', sendChatMessage);
+      document.getElementById('chat-input').addEventListener('keypress', (e) => { if(e.key==='Enter') sendChatMessage(); });
+
+      loadProfile();
+      updateDashboard();
+      evaluateOpportunitiesUnlock();
+    });
+
+    function showView(viewName) {
+      document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(viewName + '-view').classList.remove('hidden');
+      if (viewName === 'skills') updateSkillsView();
+      if (viewName === 'roadmap') updateRoadmapView();
+    }
+
+    // ------- Profile -------
+    function saveProfile() {
+      userProfile.name = document.getElementById('full-name').value.trim();
+      userProfile.age = document.getElementById('age').value.trim();
+      userProfile.education = document.getElementById('education').value;
+      userProfile.timeline = document.getElementById('timeline').value;
+
+      const skills = document.getElementById('current-skills').value;
+      userProfile.skills = skills ? skills.split(',').map(s => s.trim()).filter(Boolean) : [];
+      const interests = document.getElementById('career-interests').value;
+      userProfile.interests = interests ? interests.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+      userProfile.skills.forEach(skill => {
+        if (!userProfile.skillProgress[skill]) userProfile.skillProgress[skill] = 0;
+      });
+
+      calculateProfileCompletion();
+      saveProfileData();
+      updateDashboard();
+      updateSkillsView();
+      updateRoadmapView();
+      evaluateOpportunitiesUnlock();
+      alert('Profile saved successfully!');
+      showView('dashboard');
+    }
+
+    function calculateProfileCompletion() {
+      let completed = 0;
+      const total = 6;
+      if (userProfile.name) completed++;
+      if (userProfile.age) completed++;
+      if (userProfile.education) completed++;
+      if (userProfile.timeline) completed++;
+      if (userProfile.skills.length) completed++;
+      if (userProfile.interests.length) completed++;
+      userProfile.profileCompletion = Math.round((completed/total)*100);
+    }
+
+    // ------- Skills -------
+    function updateSkillsView() {
+      const skillsList = document.getElementById('skills-list');
+      if (!userProfile.skills.length) {
+        skillsList.textContent = 'No skills tracked yet. Add skills to your profile.';
+      } else {
+        skillsList.innerHTML = userProfile.skills.map(skill => {
+          const p = userProfile.skillProgress[skill] || 0;
+          return \`
+            <div class="mb-3">
+              <div class="flex items-center justify-between text-sm">
+                <span>\${skill}</span>
+                <span>\${p}%</span>
+              </div>
+              <div class="h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" style="width:\${p}%"></div>
+              </div>
+            </div>\`;
+        }).join('');
+      }
+      const dd = document.getElementById('skill-progress');
+      dd.innerHTML = '<option value="">Select a skill</option>';
+      userProfile.skills.forEach(s => {
+        const o = document.createElement('option'); o.value = s; o.textContent = s; dd.appendChild(o);
+      });
+    }
+
+    function logSkillProgress() {
+      const skill = document.getElementById('skill-progress').value;
+      const progress = parseInt(document.getElementById('progress-amount').value);
+      const note = document.getElementById('progress-note').value.trim();
+      if (!skill || isNaN(progress)) { alert('Select a skill and enter progress 0-100.'); return; }
+
+      userProfile.skillProgress[skill] = Math.max(0, Math.min(100, progress));
+      saveProfileData();
+      updateDashboard();
+      updateSkillsView();
+      evaluateOpportunitiesUnlock();
+      document.getElementById('progress-amount').value = '';
+      document.getElementById('progress-note').value = '';
+      document.getElementById('skill-progress').value = '';
+      alert(\`Progress logged for \${skill}: \${progress}%\`);
+    }
+
+    // ------- Roadmap -------
+    function updateRoadmapView() {
+      const container = document.getElementById('career-roadmap');
+      if (!userProfile.interests.length) {
+        container.textContent = 'Specify your career interests to get a personalized roadmap.';
+        return;
+      }
+      let key = 'web-development';
+      const ints = userProfile.interests.map(x => x.toLowerCase());
+      if (ints.some(i => i.includes('data'))) key = 'data-science';
+      if (ints.some(i => i.includes('ai') || i.includes('ml'))) key = 'ai-ml';
+
+      const roadmap = careerRoadmaps[key];
+      container.innerHTML = roadmap.map((phase, idx) => \`
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10 mb-3">
+          <h4 class="font-semibold">Phase \${idx+1}: \${phase.phase} <span class="text-xs text-slate-300/70">(\${phase.duration})</span></h4>
+          <ul class="list-disc ml-6 mt-2 text-slate-300/90">\${phase.steps.map(s => '<li>'+s+'</li>').join('')}</ul>
+        </div>\`).join('');
+    }
+
+    // ------- Chat (placeholder logic) -------
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage('You', text, true);
+      input.value='';
+
+      setTimeout(() => {
+        const reply = generateAIResponse(text);
+        addMessage('AI', reply, false);
+      }, 500);
+    }
+    function addMessage(sender, text, user=false){
+      const wrap = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = 'mb-3 p-3 rounded-xl border ' + (user ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-white/5 border-white/10');
+      div.innerHTML = '<strong>'+sender+':</strong><p>'+text+'</p>';
+      wrap.appendChild(div);
+      wrap.scrollTop = wrap.scrollHeight;
+    }
+    function generateAIResponse(message) {
+      const m = message.toLowerCase();
+      if (m.includes('roadmap')) return 'Check the Roadmap tab for your personalized phases. Want me to break down the first phase into a weekly plan?';
+      if (m.includes('skill')) return 'Focus on your weakest foundational skill first. Aim for 30–60 min daily practice and weekly mini-projects.';
+      if (m.includes('job') || m.includes('intern')) return 'Once your average skill mastery crosses 70%, the Opportunities card unlocks tailored internships and jobs.';
+      return 'I can help with skills, roadmaps, interview prep, and opportunities. What do you want to do next?';
+    }
+
+    // ------- Dashboard -------
+    function updateDashboard() {
+      document.getElementById('user-name').textContent = userProfile.name || 'Student';
+      document.getElementById('user-initials').textContent = (userProfile.name || 'S').substring(0,1).toUpperCase();
+
+      document.getElementById('profile-progress-percent').textContent = userProfile.profileCompletion + '%';
+      document.getElementById('profile-progress-bar').style.width = userProfile.profileCompletion + '%';
+
+      if (userProfile.skills.length) {
+        const total = Object.values(userProfile.skillProgress).reduce((a,b)=>a+b,0);
+        const avg = Math.round(total / userProfile.skills.length);
+        document.getElementById('skills-progress-percent').textContent = avg + '%';
+        document.getElementById('skills-progress-bar').style.width = avg + '%';
+      } else {
+        document.getElementById('skills-progress-percent').textContent = '0%';
+        document.getElementById('skills-progress-bar').style.width = '0%';
+      }
+
+      const goals = document.getElementById('career-goals-summary');
+      if (userProfile.interests.length) {
+        goals.innerHTML = \`<p><span class="text-slate-300/80">Target Roles:</span> <span class="font-semibold">\${userProfile.interests.join(', ')}</span></p>
+                            <p><span class="text-slate-300/80">Timeline:</span> \${userProfile.timeline || 'Not specified'}</p>\`;
+      } else {
+        goals.textContent = 'Set your career goals to see recommendations';
+      }
+
+      const next = document.getElementById('next-steps-summary');
+      if (userProfile.profileCompletion < 100) {
+        next.textContent = 'Complete your profile to unlock personalized recommendations';
+      } else if (!userProfile.skills.length) {
+        next.textContent = 'Add skills to start tracking your progress';
+      } else {
+        let rec = 'Explore different career paths to find your interest';
+        const ints = userProfile.interests.map(x => x.toLowerCase());
+        if (ints.some(i => i.includes('web'))) rec = 'Start with HTML/CSS fundamentals & build a portfolio landing page';
+        else if (ints.some(i => i.includes('data'))) rec = 'Begin with Python + Pandas and a small EDA project';
+        else if (ints.some(i => i.includes('ai') || i.includes('ml'))) rec = 'Cover Math for ML and implement a simple classifier';
+        next.textContent = 'Recommended next step: ' + rec;
+      }
+    }
+
+    // ------- Opportunities Engine -------
+    function evaluateOpportunitiesUnlock() {
+      const avg = userProfile.skills.length
+        ? Math.round(Object.values(userProfile.skillProgress).reduce((a,b)=>a+b,0) / userProfile.skills.length)
+        : 0;
+      const anySkill80 = Object.values(userProfile.skillProgress).some(v => v >= 80);
+      const unlocked = avg >= 70 || anySkill80;
+
+      const badge = document.getElementById('unlock-badge');
+      const sub = document.getElementById('opportunities-sub');
+      badge.classList.toggle('hidden', !unlocked);
+      sub.textContent = unlocked
+        ? 'Congrats! Based on your progress, here are tailored internships, hackathons and jobs.'
+        : 'Unlock internships, hackathons, and jobs by progressing your skills.';
+
+      fetchOpportunities(unlocked);
+    }
+
+    function getPrimaryTrack() {
+      const ints = userProfile.interests.map(x => x.toLowerCase());
+      if (ints.some(i => i.includes('ai') || i.includes('ml'))) return 'ai-ml';
+      if (ints.some(i => i.includes('data'))) return 'data-science';
+      return 'web-development';
+    }
+
+    function fetchOpportunities(unlocked) {
+      const list = document.getElementById('opportunities-list');
+      list.innerHTML = '';
+
+      if (!unlocked) {
+        // Pretty placeholders
+        ['Internships', 'Hackathons', 'Jobs'].forEach(section => {
+          const div = document.createElement('div');
+          div.className = 'p-4 rounded-2xl bg-white/5 border border-white/10';
+          div.innerHTML = \`
+            <div class="flex items-center justify-between">
+              <h4 class="font-semibold">\${section}</h4>
+              <span class="text-xs px-2 py-1 rounded-full bg-white/10">Locked</span>
+            </div>
+            <p class="text-sm text-slate-300/70 mt-2">Reach 70% average skill mastery to unlock curated \${section.toLowerCase()}.</p>
+          \`;
+          list.appendChild(div);
+        });
+        return;
+      }
+
+      const track = getPrimaryTrack();
+      const data = MOCK_OPPORTUNITIES[track];
+
+      function renderSection(title, items) {
+        const card = document.createElement('div');
+        card.className = 'p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition';
+        card.innerHTML = \`
+          <div class="flex items-center justify-between">
+            <h4 class="font-semibold">\${title}</h4>
+            <span class="text-xs px-2 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-200">New</span>
+          </div>
+          <ul class="mt-2 space-y-2 text-sm">\${items.map(it => '<li><a class="underline hover:no-underline" href="'+it.link+'" target="_blank"><strong>'+it.title+'</strong> — '+it.org+'</a></li>').join('')}</ul>
+          <p class="text-xs text-slate-300/60 mt-3">Live API placeholder — plug in LinkedIn/Devpost/Kaggle here.</p>
+        \`;
+        list.appendChild(card);
+      }
+
+      renderSection('Internships', data.internships);
+      renderSection('Hackathons', data.hackathons);
+      renderSection('Jobs', data.jobs);
+    }
+
+    // ------- Persistence -------
+    function saveProfileData(){ try{ localStorage.setItem('careerAdvisorProfileV2', JSON.stringify(userProfile)); }catch(e){} }
+    function loadProfile(){
+      try{
+        const saved = localStorage.getItem('careerAdvisorProfileV2');
+        if (saved) {
+          userProfile = JSON.parse(saved);
+          document.getElementById('full-name').value = userProfile.name || '';
+          document.getElementById('age').value = userProfile.age || '';
+          document.getElementById('education').value = userProfile.education || '';
+          document.getElementById('timeline').value = userProfile.timeline || '';
+          document.getElementById('current-skills').value = (userProfile.skills || []).join(', ');
+          document.getElementById('career-interests').value = (userProfile.interests || []).join(', ');
+        }
+      }catch(e){}
+    }
+  </script>
+</body>
+</html>
